@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Event Test</string>
+    <string name="fragment">Fragment</string>
+</resources>
