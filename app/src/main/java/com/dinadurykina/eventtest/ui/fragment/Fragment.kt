@@ -13,12 +13,17 @@ import com.dinadurykina.eventtest.databinding.FragmentBinding
 import com.dinadurykina.eventtest.util.observeEvent
 import com.google.android.material.snackbar.Snackbar
 
+
+
 /**
  * A simple [Fragment] subclass as the second destination
  */
 
 class Fragment : Fragment() {
+    // классический способ создания viewModel ( не требует import fragment)
+    //private lateinit var viewModel: FragmentViewModel
 
+    //создание viewModel через extension-ktx (не требует implementation fragment-ktx)
     private val viewModel: FragmentViewModel by viewModels()
     private lateinit var binding: FragmentBinding
 
@@ -26,6 +31,9 @@ class Fragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+       // классический способ создания viewModel ( не требует import fragment)
+       // viewModel = ViewModelProvider(this).get(FragmentViewModel::class.java)
+
         // Inflate the layout for this fragment
         binding = FragmentBinding.inflate(inflater)
 

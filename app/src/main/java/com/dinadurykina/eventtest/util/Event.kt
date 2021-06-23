@@ -15,17 +15,20 @@
  */
 package com.dinadurykina.eventtest.util
 
-// https://gist.github.com/JoseAlcerreca/e0bba240d9b3cffa258777f12e5c0ae9
+
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.Observer
 
 open class Event<out T>(private val content: T? = null) {
     @Suppress("MemberVisibilityCanBePrivate")
     var hasBeenHandled = false
         private set
-    //  Returns the content and prevents its use again.
+    // Returns the content and prevents its use again.
+    // Возвращает содержимое и предотвращает его повторное использование.
     fun getContentIfNotHandled(): T? = if (hasBeenHandled) null  else content.also { hasBeenHandled = true }
-    //  Returns the content, even if it's already been handled.
+    // Returns the content, even if it's already been handled.
+    // Возвращает содержимое, даже если оно уже обработано.
   fun peekContent(): T? = content
 }
 
@@ -33,9 +36,17 @@ inline fun <T> LiveData<Event<T>>.observeEvent(owner: LifecycleOwner, crossinlin
     observe(owner) { it?.getContentIfNotHandled()?.let(onEventUnhandledContent) }
 }
 
+class EventObserver<T>(private val onEventUnhandledContent: (T) -> Unit) : Observer<Event<T>> {
+    override fun onChanged(event: Event<T>?) {
+        event?.getContentIfNotHandled()?.let { onEventUnhandledContent(it) }
+    }
+
+}
+
 // Event     https://gist.github.com/52e326bc01a8cfaf5e410f239cd801db
 // ViewModel https://gist.github.com/Dzendo/ef2167d1572f5fb6af95d6700c879cce
 // Fragment  https://gist.github.com/Dzendo/0eb95f9a8004ddd7a1ab98755a1e6d38
+// Observer class https://gist.github.com/JoseAlcerreca/e0bba240d9b3cffa258777f12e5c0ae9
 
 /**
  * Организация Событий в Blueprint архитектуре Jetpack

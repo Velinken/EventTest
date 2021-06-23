@@ -56,7 +56,7 @@ class EventTestSample {
 
     @Test
     fun eventSampleNull() {
-        val testContent = null
+        val testContent:Any? = null
         val event = Event(testContent)
         assertEquals(event.hasBeenHandled,false)
         assertNull(event.peekContent())
@@ -97,5 +97,6 @@ class EventTestSample {
     // Лямбду, функцию, надо подумать что из Котлина
 
     // Передать событию в качестве контента другое событие
+
     // На этом закончить и перейти EventObserverUnit
 }
