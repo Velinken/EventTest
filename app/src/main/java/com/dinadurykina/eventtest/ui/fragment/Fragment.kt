@@ -46,7 +46,7 @@ class Fragment : Fragment() {
 
         viewModel.toast.observeEvent(viewLifecycleOwner) {
             Toast.makeText(activity, it, Toast.LENGTH_LONG).show()
-            binding.message.setText(viewModel.toast.value?.peekContent() ?: "nul")
+            binding.message.text = viewModel.toast.value?.peekContent() ?: "nul"
         }
         // ПОСЛЕ СРАБОТКИ Trigger ЕГО НЕ НАДО ОПУСКАТЬ - это произведется автоматически
         // т.е. не нужна функция опускания флажка и ее вызов из фрагмента
@@ -58,14 +58,25 @@ class Fragment : Fragment() {
                 true -> showKeyboard()
                 false -> hideKeyboard()
             }
-            binding.message.setText((viewModel.keyBoard.value?.peekContent() ?: "nul").toString())
+            binding.message.text = (viewModel.keyBoard.value?.peekContent() ?: "nul").toString()
         }
+
         viewModel.snackbar.observeEvent(viewLifecycleOwner) {
-           val  snackbar = Snackbar.make(binding.root, it.toString(),
-                Snackbar.LENGTH_LONG)
-            snackbar.show()
-            binding.message.setText( viewModel.snackbar.value?.peekContent()?:"nul")
+            Snackbar.make(binding.root, it.toString(),
+                Snackbar.LENGTH_LONG).show()
+            binding.message.text = viewModel.snackbar.value?.peekContent()?:"nul"
         }
+
+       /* viewModel.snackbar.observe(viewLifecycleOwner) {
+            it.getContentIfNotHandled()?.let {
+             Snackbar.make(
+                    binding.root, it.toString(),
+                    Snackbar.LENGTH_LONG
+                ).show()
+                binding.message.text = viewModel.snackbar.value?.peekContent() ?: "nul"
+            }
+        }*/
+
     }
 
     private fun showKeyboard () =
