@@ -9,11 +9,14 @@ android {
     compileSdkVersion 30
     buildToolsVersion "30.0.3"
 
-    buildFeatures {
+    /*buildFeatures {
         // binding java (generated)
         dataBinding true
         viewBinding true  // in Activity
-    }
+    }*/
+    buildFeatures.dataBinding = true
+    buildFeatures.viewBinding = true  // in Activity
+
     defaultConfig {
         applicationId "com.dinadurykina.eventtest"
         minSdk 24
