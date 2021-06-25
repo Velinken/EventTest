@@ -68,4 +68,14 @@ class FragmentViewModel : ViewModel() {
     fun onSnackbar(){
         _snackbar.value = Event("Snackbar text")
     }
+
+    // Объявление Trigger что надо высветить Notify
+    private val _notify =  MutableLiveData<Event<String?>>()
+    val notify: LiveData<Event<String?>>
+        get() = _notify
+
+    // при нажатии на кнопку Notify из XML вызывается эта функция:
+    fun onNotify(){
+        _notify.value = Event("Notify Velinken")
+    }
 }

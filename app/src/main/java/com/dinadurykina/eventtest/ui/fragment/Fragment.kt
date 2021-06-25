@@ -8,9 +8,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
+import com.dinadurykina.eventtest.R
 import com.dinadurykina.eventtest.databinding.FragmentBinding
+import com.dinadurykina.eventtest.util.EventObserver
 import com.dinadurykina.eventtest.util.observeEvent
 import com.google.android.material.snackbar.Snackbar
 
@@ -67,16 +71,20 @@ class Fragment : Fragment() {
             binding.message.text = viewModel.snackbar.value?.peekContent()?:"nul"
         }
 
-       /* viewModel.snackbar.observe(viewLifecycleOwner) {
-            it.getContentIfNotHandled()?.let {
-             Snackbar.make(
-                    binding.root, it.toString(),
-                    Snackbar.LENGTH_LONG
-                ).show()
-                binding.message.text = viewModel.snackbar.value?.peekContent() ?: "nul"
-            }
-        }*/
+        // Пример альтернативного набиюдателя (class нет уведомлений)
+       viewModel.notify.observe(viewLifecycleOwner, EventObserver {text ->
+                val builder = NotificationCompat.Builder(requireContext(), "channelID")
+                    .setSmallIcon(R.drawable.ic_launcher_foreground)
+                    .setContentTitle("Напоминание")
+                    .setContentText(text)
+                    .setAutoCancel(true)
+                    .setPriority(NotificationCompat.PRIORITY_DEFAULT)
 
+                with(NotificationManagerCompat.from(requireContext())) {
+                    notify(101, builder.build()) // посылаем уведомление
+                }
+                binding.message.text = viewModel.notify.value?.peekContent() ?: "nul"
+        })
     }
 
     private fun showKeyboard () =

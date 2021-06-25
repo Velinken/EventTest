@@ -59,7 +59,7 @@ open class Event<out T>(private val content: T? = null) {
 inline fun <T> LiveData<Event<T>>.observeEvent(owner: LifecycleOwner, crossinline onEventUnhandledContent: (T) -> Unit) {
     observe(owner) { it?.getContentIfNotHandled()?.let(onEventUnhandledContent) }
 }
-// альтернативный вариант более понятный и длинный (можно использовать fun или class)
+// альтернативный вариант более понятный и длинный (можно использовать или fun см выше или class см ниже)
 class EventObserver<T>(private val onEventUnhandledContent: (T) -> Unit) : Observer<Event<T>> {
     override fun onChanged(event: Event<T>?) {
         event?.getContentIfNotHandled()?.let {

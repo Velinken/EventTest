@@ -39,6 +39,16 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
+            android:id="@+id/notify"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:text="Notification"
+            android:onClick='@{() -> viewmodel.onNotify()}'
+            app:layout_constraintStart_toEndOf="@id/snackbar"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
             android:id="@+id/keyon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
