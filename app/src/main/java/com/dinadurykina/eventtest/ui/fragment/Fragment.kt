@@ -1,5 +1,6 @@
 package com.dinadurykina.eventtest.ui.fragment
 
+// build.gradle(Module): dependencies.implementation 'androidx.fragment:fragment-ktx:1.3.5'
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -13,41 +14,33 @@ import com.dinadurykina.eventtest.databinding.FragmentBinding
 import com.dinadurykina.eventtest.util.observeEvent
 import com.google.android.material.snackbar.Snackbar
 
-
-
 /**
- * A simple [Fragment] subclass as the second destination
+ * В техгологии JetPack [Fragment] вызывается из MainActivity:
+ * класс [Fragment], построит и высветит очередной экран на смартфоне
+ * размещается обычно на весь экран (не обязательно, см FragmentContainerView)
+ * макет экрана строит (надувает) обычно из своего fragment.xml
+ * согласно JetPack должен обладать технологией buildFeatures.dataBinding = true
+ * согласно JetPack должен создавать под собой FragmentViewModel.kt
  */
 
 class Fragment : Fragment() {
-    // классический способ создания viewModel ( не требует import fragment)
-    //private lateinit var viewModel: FragmentViewModel
 
-    //создание viewModel через extension-ktx (не требует implementation fragment-ktx)
+    // [Fragment] создает viewModel используя fragment-ktx
     private val viewModel: FragmentViewModel by viewModels()
-    private lateinit var binding: FragmentBinding
+    private lateinit var binding: FragmentBinding  // из fragment.xml
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-       // классический способ создания viewModel ( не требует import fragment)
-       // viewModel = ViewModelProvider(this).get(FragmentViewModel::class.java)
-
-        // Inflate the layout for this fragment
+        // Простейший стандартный способ в JetPack обеспечения [Fragment]:
         binding = FragmentBinding.inflate(inflater)
-
-        // Allows Data Binding to Observe LiveData with the lifecycle of this Fragment
         binding.lifecycleOwner = this
-
-        // Giving the binding access to the OverviewViewModel
         binding.viewmodel = viewModel
-
-
-        // Inflate the layout for this fragment
         return binding.root
     }
 
+    // В этом блоке навешиваем слушателей событий происходящих в viewModel
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -55,6 +48,10 @@ class Fragment : Fragment() {
             Toast.makeText(activity, it, Toast.LENGTH_LONG).show()
             binding.message.setText(viewModel.toast.value?.peekContent() ?: "nul")
         }
+        // ПОСЛЕ СРАБОТКИ Trigger ЕГО НЕ НАДО ОПУСКАТЬ - это произведется автоматически
+        // т.е. не нужна функция опускания флажка и ее вызов из фрагмента
+        // Другими словами Event + observeEvent фактически это SingleEventObserver
+        // второй раз наблюдатель сработать на флажке не может - Trigger уже опущен
 
         viewModel.keyBoard.observeEvent(viewLifecycleOwner) {
             when (it) {
@@ -73,19 +70,18 @@ class Fragment : Fragment() {
 
     private fun showKeyboard () =
         binding.apply {
-            message.requestFocus()
+            keyboard.requestFocus()
             val imm =
-                ContextCompat.getSystemService(message.context, InputMethodManager::class.java)
-            imm!!.showSoftInput(message, 0)
+                ContextCompat.getSystemService(keyboard.context, InputMethodManager::class.java)
+            imm!!.showSoftInput(keyboard, 0)
         }
 
     private fun hideKeyboard() =
         binding.apply {
             invalidateAll()   // обновить экран
-            message.requestFocus()
+            keyboard.requestFocus()
             val imm =
-                ContextCompat.getSystemService(message.context, InputMethodManager::class.java)
-            imm!!.hideSoftInputFromWindow(message.windowToken, 0)
+                ContextCompat.getSystemService(keyboard.context, InputMethodManager::class.java)
+            imm!!.hideSoftInputFromWindow(keyboard.windowToken, 0)
         }
-
 }

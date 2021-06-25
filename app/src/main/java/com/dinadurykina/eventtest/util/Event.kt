@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 package com.dinadurykina.eventtest.util
-
-
+// этот класс имеет смысл разместить в подпакет util или utils
+// build.gradle(Module): dependencies.implementation 'androidx.fragment:fragment-ktx:1.3.5'
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer

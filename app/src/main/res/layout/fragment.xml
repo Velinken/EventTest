@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--с оберткой <layout которая говорит, что это DataBinding -->
+<!--с оберткой <layout  которая говорит, что это DataBinding -->
 
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <!-- Fragment засылает ссылку на созданную им viewModel-->
         <variable
             name="viewmodel"
             type="com.dinadurykina.eventtest.ui.fragment.FragmentViewModel" />
@@ -57,7 +58,7 @@
             app:layout_constraintStart_toEndOf="@id/keyon"
             app:layout_constraintTop_toTopOf="@id/keyon" />
 
-        <EditText
+        <TextView
             android:id="@+id/message"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -65,6 +66,14 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/keyboard"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            app:layout_constraintStart_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

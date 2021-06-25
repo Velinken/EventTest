@@ -7,6 +7,9 @@ import com.dinadurykina.eventtest.databinding.MainActivityBinding
  * Создается новый класс MainActivity с родителем AppCompatActivity
  * Используется viewBinding, для этого в build.gradle должно стоять:
  * buildFeatures.viewBinding = true
+ *
+ * В примере используется Google material desing -> необходимо
+ * dependencies.implementation 'com.google.android.material:material:1.3.0'
  */
 class MainActivity : AppCompatActivity() {
 
