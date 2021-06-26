@@ -6,7 +6,6 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
-import android.graphics.BitmapFactory
 import android.os.Build
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -16,10 +15,7 @@ import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.core.app.NotificationCompat
-import androidx.core.app.NotificationManagerCompat
-import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.getSystemService
-import androidx.core.content.getSystemService
 import androidx.fragment.app.viewModels
 import com.dinadurykina.eventtest.R
 import com.dinadurykina.eventtest.databinding.FragmentBinding
@@ -37,9 +33,6 @@ import com.google.android.material.snackbar.Snackbar
  */
 
 class Fragment : Fragment() {
-
-    private val NOTIFICATION_CHANNEL_ID = "101"
-    private val NOTIFICATION_CHANNEL_NAME = "CANALID"
 
     // [Fragment] создает viewModel используя fragment-ktx
     private val viewModel: FragmentViewModel by viewModels()
@@ -78,26 +71,36 @@ class Fragment : Fragment() {
         }
 
         viewModel.snackbar.observeEvent(viewLifecycleOwner) {
-            Snackbar.make(binding.root, it.toString(),
-                Snackbar.LENGTH_LONG).show()
+            Snackbar.make(binding.root, it.toString(), Snackbar.LENGTH_LONG).show()
             binding.message.text = viewModel.snackbar.value?.peekContent()?:"nul"
         }
 
-        // Пример альтернативного набиюдателя (class нет уведомлений)
+        // Пример альтернативного набиюдателя (class EventObserver шлет уведомления)
        viewModel.notify.observe(viewLifecycleOwner, EventObserver {text ->
-           initChannel(NOTIFICATION_CHANNEL_ID, NOTIFICATION_CHANNEL_NAME)
-           startTripNotification(text)
+           val NOTIFICATION_CHANNEL_ID = "101"
+           val NOTIFICATION_CHANNEL_NAME = "CANALID"
 
-              /*  val builder = NotificationCompat.Builder(requireContext(), "channelID")
-                    .setSmallIcon(R.drawable.ic_launcher_foreground)
-                    .setContentTitle("Напоминание")
-                    .setContentText(text)
-                    .setAutoCancel(true)
-                    .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+           val notificationManager = activity?.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+           if (Build.VERSION.SDK_INT >= 26) {
+               val channel = NotificationChannel(
+                   NOTIFICATION_CHANNEL_ID,
+                   NOTIFICATION_CHANNEL_NAME,
+                   NotificationManager.IMPORTANCE_DEFAULT
+               )
+               notificationManager.createNotificationChannel(channel)
+           }
 
-                with(NotificationManagerCompat.from(requireContext())) {
-                    notify(101, builder.build()) // посылаем уведомление
-                }*/
+           val pendingIntent = PendingIntent.getActivity(activity, 0, Intent(), 0)
+           val notification = NotificationCompat.Builder(requireContext(),NOTIFICATION_CHANNEL_ID)
+               .setContentTitle("event notification title")
+               .setContentText(text)
+               .setSmallIcon(R.mipmap.ic_launcher)
+               //.setLargeIcon(BitmapFactory.decodeResource(this.resources, R.mipmap.ic_launcher))
+               .setAutoCancel(true)
+               //.setPriority(NotificationCompat.PRIORITY_DEFAULT)
+           notification.setContentIntent(pendingIntent)
+           notificationManager.notify(0, notification.build())
+
                 binding.message.text = viewModel.notify.value?.peekContent() ?: "nul"
         })
     }
@@ -105,43 +108,15 @@ class Fragment : Fragment() {
     private fun showKeyboard () =
         binding.apply {
             keyboard.requestFocus()
-            val imm =
-                ContextCompat.getSystemService(keyboard.context, InputMethodManager::class.java)
-            imm!!.showSoftInput(keyboard, 0)
+            getSystemService(keyboard.context, InputMethodManager::class.java)!!
+                .showSoftInput(keyboard, 0)
         }
 
     private fun hideKeyboard() =
         binding.apply {
             invalidateAll()   // обновить экран
             keyboard.requestFocus()
-            val imm =
-                ContextCompat.getSystemService(keyboard.context, InputMethodManager::class.java)
-            imm!!.hideSoftInputFromWindow(keyboard.windowToken, 0)
+            getSystemService(keyboard.context, InputMethodManager::class.java)!!
+             .hideSoftInputFromWindow(keyboard.windowToken, 0)
         }
-
-    private fun initChannel(channelId: String, channelName: String) {
-        if (Build.VERSION.SDK_INT < 26) {
-            return
-        }
-        //val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        val notificationManager = requireContext().getSystemService() as NotificationManager?
-        val channel = NotificationChannel(channelId, channelName, NotificationManager.IMPORTANCE_DEFAULT)
-
-        notificationManager!!.createNotificationChannel(channel)
-    }
-    private fun startTripNotification(text:String?) {
-
-
-        initChannel(NOTIFICATION_CHANNEL_ID, NOTIFICATION_CHANNEL_NAME)
-
-        val pendingIntent = PendingIntent.getActivity(activity, 0, Intent(), 0)
-        val     notification = NotificationCompat.Builder(requireContext(),NOTIFICATION_CHANNEL_ID)
-            .setContentTitle("test notification title")
-            .setContentText(text)
-            .setSmallIcon(R.mipmap.ic_launcher)
-            .setLargeIcon(BitmapFactory.decodeResource(this.resources, R.mipmap.ic_launcher))
-        notification.setContentIntent(pendingIntent)
-        val notificationManager = activity?.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        notificationManager.notify(0, notification.build())
-    }
 }
