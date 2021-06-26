@@ -1,6 +1,8 @@
 package com.dinadurykina.eventtest.ui.fragment
 
+import android.app.Application
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -25,8 +27,7 @@ import com.dinadurykina.eventtest.util.Event
  *
  * правильная ViewModel спасает при разрушения фрагмента от поворота смартфона
  */
-
-class FragmentViewModel : ViewModel() {
+class FragmentViewModelApp(application: Application) : AndroidViewModel(application) {
 
     // стандартное объявление Trigger что надо высветить TOAST
     private val _toast =  MutableLiveData<Event<String?>>()

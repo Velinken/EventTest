@@ -11,6 +11,7 @@ import com.dinadurykina.eventtest.databinding.MainActivityBinding
  * В примере используется Google material desing -> необходимо
  * dependencies.implementation 'com.google.android.material:material:1.3.0'
  */
+// https://developer.android.com/codelabs/advanced-android-kotlin-training-testing-test-doubles#0
 class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
