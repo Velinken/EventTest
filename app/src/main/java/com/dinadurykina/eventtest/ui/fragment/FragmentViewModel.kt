@@ -1,9 +1,10 @@
 package com.dinadurykina.eventtest.ui.fragment
 
+import android.app.Application
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import com.dinadurykina.eventtest.util.Event
 /**
  * The [FragmentViewModel] that is attached to the [Fragment].
@@ -26,7 +27,7 @@ import com.dinadurykina.eventtest.util.Event
  * правильная ViewModel спасает при разрушения фрагмента от поворота смартфона
  */
 
-class FragmentViewModel : ViewModel() {
+class FragmentViewModel(application: Application) : AndroidViewModel(application) {
 
     // стандартное объявление Trigger что надо высветить TOAST
     private val _toast =  MutableLiveData<Event<String?>>()
@@ -34,7 +35,7 @@ class FragmentViewModel : ViewModel() {
         get() = _toast
 
     // при нажатии на кнопку TOAST из XML вызывается эта функция:
-    fun onToast(text:String){
+    fun onToast(text:String = ""){
         // Поднимается Trigger toast - ему присваивается новое событие - Trigger взведен
         // т.е. создается новое событие и присваивается флажку toast отчего он изменяется
         // а этот Trigger слушается из фрагмента observeEvent-ом на изменение

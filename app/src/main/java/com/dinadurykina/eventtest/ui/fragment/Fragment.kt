@@ -36,7 +36,6 @@ class Fragment : Fragment() {
 
     // [Fragment] создает viewModel используя fragment-ktx
     private val viewModel: FragmentViewModel by viewModels()
-    private val viewModelApp: FragmentViewModelApp by viewModels()
     private lateinit var binding: FragmentBinding  // из fragment.xml
 
     override fun onCreateView(
