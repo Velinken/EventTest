@@ -76,7 +76,7 @@ class Fragment : Fragment() {
             binding.message.text = viewModel.snackbar.value?.peekContent()?:"nul"
         }
 
-        // Пример альтернативного набиюдателя (class EventObserver шлет уведомления)
+        // Пример альтернативного наблюдателя (class EventObserver шлет уведомления)
        viewModel.notify.observe(viewLifecycleOwner, EventObserver {text ->
            val NOTIFICATION_CHANNEL_ID = "101"
            val NOTIFICATION_CHANNEL_NAME = "CANALID"
