@@ -18,7 +18,7 @@ import org.robolectric.annotation.Config
 
 @RunWith(AndroidJUnit4::class)
 @Config(manifest= Config.NONE)
-class FragmentViewModelTestSample {
+class FragmentViewModelTest {
 
     /**
      * Когда вы пишете тесты, включающие тестирование LiveData, используйте это правило!
@@ -37,7 +37,7 @@ class FragmentViewModelTestSample {
     private lateinit var fragmentViewModel: FragmentViewModel
 
     @Before
-    fun createFragmentViewModel() {
+    fun createFragmentViewModelUI() {
         fragmentViewModel = FragmentViewModel(ApplicationProvider.getApplicationContext())
     }
 

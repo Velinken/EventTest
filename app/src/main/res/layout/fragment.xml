@@ -6,7 +6,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <!-- Fragment засылает ссылку на созданную им viewModel-->
+        <!-- Fragment засылает ссылку на созданную им FragmentViewModelUI-->
         <variable
             name="viewmodel"
             type="com.dinadurykina.eventtest.ui.fragment.FragmentViewModel" />

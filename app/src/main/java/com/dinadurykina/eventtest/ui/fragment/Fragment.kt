@@ -76,7 +76,7 @@ class Fragment : Fragment() {
         }
 
         // Пример альтернативного наблюдателя (class EventObserver шлет уведомления)
-       viewModel.notify.observe(viewLifecycleOwner, EventObserver {text ->
+       viewModel.notify.observe(viewLifecycleOwner, EventObserver { text ->
            val NOTIFICATION_CHANNEL_ID = "101"
            val NOTIFICATION_CHANNEL_NAME = "CANALID"
 
