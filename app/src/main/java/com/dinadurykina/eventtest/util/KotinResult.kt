@@ -4,8 +4,12 @@ package com.dinadurykina.eventtest.util
 // API:   https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-result/
 // ENG:   https://gist.github.com/DinaDurykina/7ace19e138370c6a9b8ddf54f9d542c4
 // Eng/RUS:   https://gist.github.com/DinaDurykina/4167a080d6d09c3ac5da1869ece421e2
+// https://habr.com/ru/post/545926/
 
 // 05.07.2021 https://t.me/kotlin_start/49848
+
+// https://github.com/Kotlin/KEEP/blob/master/proposals/stdlib/result.md
+// https://github.com/Kotlin/KEEP/blob/master/proposals/stdlib/result.md
 /*
  * Copyright 2010-2018 JetBrains s.r.o. and Kotlin Programming Language contributors.
  * Use of this source code is governed by the Apache 2.0 license that can be found in the license/LICENSE.txt file.
