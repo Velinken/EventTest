@@ -34,6 +34,8 @@ class FragmentViewModel(application: Application) : AndroidViewModel(application
     val toast: LiveData<Event<String?>>
         get() = _toast
 
+    fun aaa() : Result<Int> = Result.success(5)
+
     // при нажатии на кнопку TOAST из XML вызывается эта функция:
     fun onToast(text:String = ""){
         // Поднимается Trigger toast - ему присваивается новое событие - Trigger взведен
