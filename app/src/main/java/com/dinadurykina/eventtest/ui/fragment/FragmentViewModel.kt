@@ -36,6 +36,7 @@ class FragmentViewModel(application: Application) : AndroidViewModel(application
 
     fun aaa() : Result<Int> = Result.success(5)
 
+
     // при нажатии на кнопку TOAST из XML вызывается эта функция:
     fun onToast(text:String = ""){
         // Поднимается Trigger toast - ему присваивается новое событие - Trigger взведен
@@ -48,6 +49,7 @@ class FragmentViewModel(application: Application) : AndroidViewModel(application
         // т.е. не нужна функция опускания Trigger и ее вызов из фрагмента
         // Другими словами Event + observeEvent фактически это SingleEventObserver
         // второй раз наблюдатель сработать на флажке не может - Trigger уже опущен
+
     }
 
     // Объявление флажка что надо высветить keyBoard
